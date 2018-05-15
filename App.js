@@ -1,7 +1,9 @@
 import React from 'react';
-import { Button, View, Text, Image, FlatList } from 'react-native';
+import { Button, View, Text, Image } from 'react-native';
 import { TabBar, Icon } from 'antd-mobile';
 import { createStackNavigator  } from 'react-navigation'
+
+import ListView from './js/ListView'
 
 class App extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -39,15 +41,7 @@ class App extends React.Component {
                         }}
                     >
                         <View style={{backgroundColor:'red',height:'100%'}}>
-                            <FlatList
-                                data={[{key: 'a'}, {key: 'b'}]}
-                                renderItem={({item}) => <Text>{item.key}</Text>}
-                                ItemSeparatorComponent={()=>{
-                                    return (
-                                        <View style={{height:1,backgroundColor:'#fff'}} ></View>
-                                    )
-                                }}
-                            />
+                            <ListView />
                         </View>
                     </TabBar.Item>
                     <TabBar.Item
