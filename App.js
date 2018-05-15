@@ -1,10 +1,19 @@
 import React from 'react';
-import { Button, View, Text } from 'react-native';
-import { TabBar } from 'antd-mobile';
+import { Button, View, Text, Image, FlatList } from 'react-native';
+import { TabBar, Icon } from 'antd-mobile';
+import { createStackNavigator  } from 'react-navigation'
 
-import my from './res/img/my.png'
-
-export default class App extends React.Component {
+class App extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        const { params } = navigation.state;
+        
+        return {
+          title: params ? params.otherParam : '首页',
+          headerRight: (
+            <Image source={require('./res/img/home.png')} />
+          ),
+        }
+    }
     state={
         selectedTab: 'home'
     }
@@ -26,10 +35,19 @@ export default class App extends React.Component {
                             this.setState({
                               selectedTab: 'home',
                             });
+                            this.props.navigation.setParams({otherParam: '首页'})
                         }}
                     >
                         <View style={{backgroundColor:'red',height:'100%'}}>
-                            <Text>home</Text>
+                            <FlatList
+                                data={[{key: 'a'}, {key: 'b'}]}
+                                renderItem={({item}) => <Text>{item.key}</Text>}
+                                ItemSeparatorComponent={()=>{
+                                    return (
+                                        <View style={{height:1,backgroundColor:'#fff'}} ></View>
+                                    )
+                                }}
+                            />
                         </View>
                     </TabBar.Item>
                     <TabBar.Item
@@ -42,6 +60,7 @@ export default class App extends React.Component {
                             this.setState({
                               selectedTab: 'my',
                             });
+                            this.props.navigation.setParams({otherParam: '我'})
                         }}
                     >
                         <View>
@@ -53,3 +72,10 @@ export default class App extends React.Component {
         )
     }
 }
+
+export default createStackNavigator({
+    Home: {
+        screen: App
+    },
+});
+
