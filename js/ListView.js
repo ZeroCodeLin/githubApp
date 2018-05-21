@@ -3,10 +3,10 @@ import { Button, View, Text, Image, FlatList } from 'react-native';
 
 import GitHubTrending from 'GitHubTrending'
 const data = [
-    {title: 'test1',text:'1111111111111'},
-    {title: 'test2',text:'2222222222222'},
-    {title: 'test3',text:'3333333333333'},
-    {title: 'test4',text:'4444444444444'},
+    {fullName: 'test1',starCount:'1111111111111'},
+    {fullName: 'test2',starCount:'2222222222222'},
+    {fullName: 'test3',starCount:'3333333333333'},
+    {fullName: 'test4',starCount:'4444444444444'},
 ]
 
 export default class ListView extends React.Component {
@@ -17,7 +17,7 @@ export default class ListView extends React.Component {
 
     componentDidMount(){
         // Alert.alert('123');
-        this.loadGitHubTrending('https://github.com/trending');
+        // this.loadGitHubTrending('https://github.com/trending');
     }
 
     loadGitHubTrending(url) {
@@ -46,7 +46,8 @@ export default class ListView extends React.Component {
     render(){
         return (
             <FlatList
-                data={this.state.dataArray}
+                // data={this.state.dataArray}
+                data={data}
                 renderItem={({item}) => this.el({item})}
                 ItemSeparatorComponent={()=>{
                     return (
