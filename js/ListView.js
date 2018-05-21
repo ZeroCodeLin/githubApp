@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, View, Text, Image, FlatList } from 'react-native';
 
+import GitHubTrending from 'GitHubTrending'
 const data = [
     {title: 'test1',text:'1111111111111'},
     {title: 'test2',text:'2222222222222'},
@@ -10,18 +11,42 @@ const data = [
 
 export default class ListView extends React.Component {
 
+    state={
+        dataArray:[]
+    }
+
+    componentDidMount(){
+        // Alert.alert('123');
+        this.loadGitHubTrending('https://github.com/trending');
+    }
+
+    loadGitHubTrending(url) {
+        new GitHubTrending().fetchTrending(url)
+            .then((data) => {
+                this.setState({
+                    dataArray: data,
+                })
+                // Alert.alert(JSON.stringify(data));
+                console.log(data)
+            }).catch((error) => {
+            this.setState({
+                result: "failure",
+            })
+        });
+    }
+
     el=({item})=>{
         return (
             <View >
-                <Text>{item.title}</Text>                    
-                <Text>{item.text}</Text>                    
+                <Text>{item.fullName}</Text>                    
+                <Text>{item.starCount}</Text>                    
             </View>
         )
     }
     render(){
         return (
             <FlatList
-                data={data}
+                data={this.state.dataArray}
                 renderItem={({item}) => this.el({item})}
                 ItemSeparatorComponent={()=>{
                     return (
