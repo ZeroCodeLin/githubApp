@@ -4,7 +4,8 @@ import { TabBar, Icon } from 'antd-mobile';
 import { createStackNavigator  } from 'react-navigation'
 
 
-import ListView from './js/ListView'
+import ListView from './src/ListView'
+import Home from './src/view/Home'
 
 class App extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -45,7 +46,7 @@ class App extends React.Component {
                         }}
                     >
                         <View style={{backgroundColor:'red',height:'100%'}}>
-                            <ListView />
+                            <Home />
                         </View>
                     </TabBar.Item>
                     <TabBar.Item
