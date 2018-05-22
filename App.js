@@ -45,8 +45,8 @@ class App extends React.Component {
                             this.props.navigation.setParams({otherParam: '首页'})
                         }}
                     >
-                        <View style={{backgroundColor:'red',height:'100%'}}>
-                            
+                        <View >
+                            <Home />
                         </View>
                     </TabBar.Item>
                     <TabBar.Item
@@ -67,8 +67,8 @@ class App extends React.Component {
                         </View>
                     </TabBar.Item>
                     <TabBar.Item
-                        title="我"
-                        key="my"
+                        title="like"
+                        key="like"
                         icon={require('./res/img/like.png')}
                         selectedIcon={require('./res/img/like-selected.png')}
                         selected={this.state.selectedTab === 'like'}
@@ -84,7 +84,7 @@ class App extends React.Component {
                         </View>
                     </TabBar.Item>
                     <TabBar.Item
-                        title="like"
+                        title="my"
                         key="my"
                         icon={require('./res/img/my.png')}
                         selectedIcon={require('./res/img/my-selected.png')}

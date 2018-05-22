@@ -20,10 +20,10 @@ function checkStatus(response) {
         return response;
     }
     const errortext = codeMessage[response.status] || response.statusText;
-    notification.error({
-        message: `请求错误 ${response.status}: ${response.url}`,
-        description: errortext,
-    });
+    // notification.error({
+    //     message: `请求错误 ${response.status}: ${response.url}`,
+    //     description: errortext,
+    // });
     const error = new Error(errortext);
     error.name = response.status;
     error.response = response;
@@ -37,7 +37,7 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export function request(url, options) {
+export default function request(url, options) {
     const defaultOptions = {
         credentials: 'include',
     };
