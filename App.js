@@ -46,20 +46,20 @@ class App extends React.Component {
                         }}
                     >
                         <View style={{backgroundColor:'red',height:'100%'}}>
-                            <Home />
+                            
                         </View>
                     </TabBar.Item>
                     <TabBar.Item
                         title="Trending"
                         key="trending"
-                        icon={require('./res/img/home.png')}
-                        selectedIcon={require('./res/img/home-selected.png')}
-                        selected={this.state.selectedTab === 'home'}
+                        icon={require('./res/img/trending.png')}
+                        selectedIcon={require('./res/img/trending-selected.png')}
+                        selected={this.state.selectedTab === 'trending'}
                         onPress={() => {
                             this.setState({
-                              selectedTab: 'home',
+                              selectedTab: 'trending',
                             });
-                            this.props.navigation.setParams({otherParam: '首页'})
+                            this.props.navigation.setParams({otherParam: 'Trending'})
                         }}
                     >
                         <View style={{backgroundColor:'red',height:'100%'}}>
@@ -68,6 +68,23 @@ class App extends React.Component {
                     </TabBar.Item>
                     <TabBar.Item
                         title="我"
+                        key="my"
+                        icon={require('./res/img/like.png')}
+                        selectedIcon={require('./res/img/like-selected.png')}
+                        selected={this.state.selectedTab === 'like'}
+                        onPress={() => {
+                            this.setState({
+                              selectedTab: 'like',
+                            });
+                            this.props.navigation.setParams({otherParam: 'like'})
+                        }}
+                    >
+                        <View>
+                            <Text>like</Text>
+                        </View>
+                    </TabBar.Item>
+                    <TabBar.Item
+                        title="like"
                         key="my"
                         icon={require('./res/img/my.png')}
                         selectedIcon={require('./res/img/my-selected.png')}
