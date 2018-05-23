@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, View, Text, Image, Alert } from 'react-native';
-import { TabBar, Icon } from 'antd-mobile';
+import { TabBar, Icon, Tabs } from 'antd-mobile';
 import { createStackNavigator  } from 'react-navigation'
 
 
@@ -48,9 +48,7 @@ class App extends React.Component {
                             this.props.navigation.setParams({otherParam: '首页'})
                         }}
                     >
-                        <View >
-                            <Home navigation={this.props.navigation} />
-                        </View>
+                        <Home navigation={this.props.navigation} />
                     </TabBar.Item>
                     <TabBar.Item
                         title="Trending"
@@ -116,3 +114,24 @@ export default createStackNavigator(
     }
 );
 
+const tabs2 = [
+    { title: 'First Tab', sub: '1' },
+    { title: 'Second Tab', sub: '2' },
+    { title: 'Third Tab', sub: '3' },
+  ];
+
+class Demo extends React.Component{
+    render(){
+        return (
+            <Tabs tabs={tabs2}
+                initialPage={1}
+                onChange={(tab, index) => { console.log('onChange', index, tab); }}
+                onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+                >
+                <View><Text>111</Text></View>
+                <View><Text>222</Text></View>
+                <View><Text>333</Text></View>
+            </Tabs>
+        )
+    }
+}
