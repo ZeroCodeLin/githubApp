@@ -49,6 +49,7 @@ export default class ListView extends React.Component {
                 // data={this.state.dataArray}
                 data={data}
                 renderItem={({item}) => this.el({item})}
+                keyExtractor={(item, index) => `key-${index}`}                
                 ItemSeparatorComponent={()=>{
                     return (
                         <View style={{height:1,backgroundColor:'#fff'}} ></View>

@@ -1,15 +1,15 @@
 import React from 'react';
-import { Button, View, Text, Image, FlatList } from 'react-native';
-import { WingBlank } from 'antd-mobile'
+import { Button, View, Text, Image, FlatList, TouchableHighlight, TouchableOpacity, Alert   } from 'react-native';
+import { WingBlank, Flex } from 'antd-mobile'
 
 import request from '../utils/request'
 
-import GitHubTrending from 'GitHubTrending'
+
 const data = [
-    {key: 'one', fullName: 'test1',starCount:'1111111111111'},
-    {key: 'two', fullName: 'test2',starCount:'2222222222222'},
-    {key: 'three', fullName: 'test3',starCount:'3333333333333'},
-    {key: 'four', fullName: 'test4',starCount:'4444444444444'},
+    {key: 'one', full_name: 'test1',description:'1111111111111',owner:{login:'Zero',"avatar_url": "https://avatars3.githubusercontent.com/u/1645051?v=4",},stargazers_count: 33 },
+    {key: 'two', full_name: 'test2',description:'2222222222222',owner:{login:'Zero',"avatar_url": "https://avatars3.githubusercontent.com/u/1645051?v=4",},stargazers_count: 33 },
+    {key: 'three', full_name: 'test3',description:'3333333333333',owner:{login:'Zero',"avatar_url": "https://avatars3.githubusercontent.com/u/1645051?v=4",},stargazers_count: 33 },
+    {key: 'four', full_name: 'test4',description:'4444444444444',owner:{login:'Zero',"avatar_url": "https://avatars3.githubusercontent.com/u/1645051?v=4",},stargazers_count: 33 },
 ]
 
 export default class ListView extends React.Component {
@@ -22,30 +22,56 @@ export default class ListView extends React.Component {
     componentDidMount(){
         // Alert.alert('123');
         // this.loadGitHubTrending('https://github.com/trending');
+        console.log(this.props.navigation)
+        this.repositorySearch()
     }
 
     repositorySearch(url) {
+        this.setState({
+            refreshing: true
+        })
         request('https://api.github.com/search/repositories?q=ios').then(data =>{
             console.log(1,data)
+            this.setState({
+                dataArray: data.items,
+                refreshing: false
+            })
         })
-        // fetch('https://api.github.com/search/repositories?q=ios')
-        // .then((response) => response.json())
-        // .then((responseJson) => {
-        //     console.log(responseJson)
-        // })
-        // .catch((error) => {
-        //     console.error(error);
-        // });
     }
-
-    el=({item, index})=>{
+    onRefresh=()=>{
+        this.repositorySearch();
+    }
+    renderItem=({item})=>{
         return (
-            <View style={styles.card} key={`key-${index}`} >
-                <Text style={styles.title} >{item.fullName}</Text>                    
-                <Text >一个用于显示文本的React组件，并且它也支持嵌套、样式，以及触摸处理。在下面的例子里，嵌套的标题和正文文字会继承来自styles.baseText的fontFamily字体样式，不过标题上还附加了它自己额外的样式。标题和文本会在顶部依次堆叠，并且被代码中内嵌的换行符分隔开。</Text>                    
-                <View style={{justifyContent: 'flex-end'}} >
-                    <Text >{item.starCount}</Text>     
-                </View>                   
+            <TouchableOpacity  onPress={()=>{this.props.navigation.push('HomeView')}}>
+                <View style={styles.card} >
+                    <View> 
+                        <Text style={styles.title} >{item.full_name}</Text>
+                    </View>
+                    <View> 
+                        <Text style={styles.description} >{item.description}</Text>
+                    </View>
+                    <View style={styles.footer} >
+                        <View style={styles.author} >
+                            <Text>Author：</Text>
+                            <Image style={{width:16,height:16}}  source={{uri: item.owner.avatar_url}} /> 
+                            <Text>  {item.owner.login}</Text>
+                        </View>
+                        <TouchableHighlight onPress={()=>{Alert.alert('like')}} >
+                            <View style={styles.star} >
+                                <Image source={require('../../res/img/star.png')} /> 
+                                <Text>{item.stargazers_count}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    </View>   
+                </View>
+            </TouchableOpacity >
+        )
+    }
+    ListEmptyComponent=()=>{
+        return (
+            <View>
+                <Text>暂无数据</Text>
             </View>
         )
     }
@@ -54,8 +80,8 @@ export default class ListView extends React.Component {
             <WingBlank size="sm">
                 {/* <Button onPress={this.repositorySearch} title='click' /> */}
                 <FlatList
-                    data={data}
-                    renderItem={({item, index}) => this.el({item, index})}
+                    data={this.state.dataArray}
+                    renderItem={this.renderItem}
                     keyExtractor={(item, index) => `key-${index}`}
                     
                     ItemSeparatorComponent={()=>{
@@ -63,21 +89,9 @@ export default class ListView extends React.Component {
                             <View style={{height:5,backgroundColor:'#fff'}} ></View>
                         )
                     }}
-                    ListHeaderComponent={()=>{
-                        return <Text>下拉刷新</Text>
-                    }}
+                    ListEmptyComponent={this.ListEmptyComponent}
                     refreshing={this.state.refreshing}
-                    onRefresh={()=>{
-                        this.setState({
-                            refreshing: true
-                        })
-                        console.log('刷新')
-                        setTimeout(()=>{
-                            this.setState({
-                                refreshing: false
-                            })
-                        },5000)
-                    }}
+                    onRefresh={this.onRefresh}
                 />
             </WingBlank>
         )
@@ -91,8 +105,24 @@ const styles = {
         borderWidth: 1,
         borderRadius: 5,
         padding: 5,
+        justifyContent: 'flex-end'
     },
     title: {
         fontSize: 20
-    }
+    },
+    description: {
+
+    },
+    footer:{
+        flexDirection:'row',
+        justifyContent:'space-between'
+    },
+    author: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    star: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
 }

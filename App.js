@@ -6,6 +6,7 @@ import { createStackNavigator  } from 'react-navigation'
 
 import ListView from './src/ListView'
 import Home from './src/view/Home'
+import HomeView from './src/view/HomeView'
 
 class App extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -14,7 +15,7 @@ class App extends React.Component {
         return {
           title: params ? params.otherParam : '首页',
           headerRight: (
-            <Image source={require('./res/img/home.png')} />
+            <Image source={require('./res/img/star.png')} />
           ),
         }
     }
@@ -22,7 +23,9 @@ class App extends React.Component {
         selectedTab: 'home'
     }
 
-    
+    componentDidMount(){
+        console.log('2',this.props.navigation)
+    }
 
     render() {
         return (
@@ -46,7 +49,7 @@ class App extends React.Component {
                         }}
                     >
                         <View >
-                            <Home />
+                            <Home navigation={this.props.navigation} />
                         </View>
                     </TabBar.Item>
                     <TabBar.Item
@@ -106,9 +109,10 @@ class App extends React.Component {
     }
 }
 
-export default createStackNavigator({
-    Home: {
-        screen: App
-    },
-});
+export default createStackNavigator(
+    {
+        Home: App,
+        HomeView: HomeView
+    }
+);
 
