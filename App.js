@@ -8,6 +8,7 @@ import ListView from './src/view/ListView'
 import Home from './src/view/Home'
 import HomeView from './src/view/HomeView'
 import MyView from './src/view/MyView'
+import TabView from './src/view/TabView'
 
 class App extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -82,7 +83,7 @@ class App extends React.Component {
                         }}
                     >
                         <View>
-                            <Text>like</Text>
+                            <Button title="tab" onPress={()=>this.props.navigation.push('TabView')}  />
                         </View>
                     </TabBar.Item>
                     <TabBar.Item
@@ -109,7 +110,8 @@ class App extends React.Component {
 export default createStackNavigator(
     {
         Home: App,
-        HomeView: HomeView
+        HomeView: HomeView,
+        TabView: TabView
     }
 );
 

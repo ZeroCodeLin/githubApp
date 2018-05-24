@@ -94,8 +94,8 @@ export default class ListView extends React.Component {
                 onChange={(tab, index) => { this.repositorySearch(tab.title) }}
                 // onTabClick={(tab, index) => { this.repositorySearch(tab.title) }}
                 >
-                <View>
-                    <WingBlank size="sm">
+                <View style={{height:'100%'}}>
+                    <WingBlank size="sm" style={{height:'100%'}}>
                         <FlatList
                             data={this.state.dataArray}
                             renderItem={this.renderItem}
