@@ -19,8 +19,9 @@ export default class HomeView extends React.Component {
         selectedTab: 'home'
     }
     render(){
+        const { navigation } = this.props
         return (
-                <WebView source={{uri: 'https://github.com/owncloud/ios'}}
+                <WebView source={{uri: navigation.getParam('htmlUrl')}}
                     style={{marginTop: 20}} />
         )
     }

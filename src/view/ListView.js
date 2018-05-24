@@ -1,0 +1,129 @@
+import React from 'react';
+import { Button, View, Text, Image, FlatList, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { WingBlank, Tabs, Popover } from 'antd-mobile'
+
+import GitHubTrending from 'GitHubTrending'
+
+const Item = Popover.Item;
+
+const data = [
+    {fullName: 'test1',starCount:'1111111111111'},
+    {fullName: 'test2',starCount:'2222222222222'},
+    {fullName: 'test3',starCount:'3333333333333'},
+    {fullName: 'test4',starCount:'4444444444444'},
+]
+
+export default class ListView extends React.Component {
+    
+    state={
+        dataArray:[],
+        refreshing: false,
+    }
+
+    componentDidMount(){
+        // Alert.alert('123');
+        this.loadGitHubTrending('https://github.com/trending?since=weekly');
+       
+    }
+
+    loadGitHubTrending(url) {
+        new GitHubTrending().fetchTrending(url)
+            .then((data) => {
+                this.setState({
+                    dataArray: data,
+                })
+                // Alert.alert(JSON.stringify(data));
+                console.log(data)
+            }).catch((error) => {
+            this.setState({
+                result: "failure",
+            })
+        });
+    }
+    onRefresh=()=>{
+        this.loadGitHubTrending('https://github.com/trending?since=weekly');
+    }
+    renderItem=({item})=>{
+        return (
+            <TouchableOpacity  onPress={()=>{this.props.navigation.push('HomeView')}}>
+                <View style={styles.card} >
+                    <View> 
+                        <Text style={styles.title} >{item.fullName}</Text>
+                    </View>
+                    <View> 
+                        <Text style={styles.description} >{item.description}</Text>
+                    </View>
+                    <View style={styles.footer} >
+                        <View style={styles.author} >
+                            <Text>Author：</Text>
+                            <Image style={{width:16,height:16}}  source={{uri: item.contributors[0]}} /> 
+                            {/* <Text>  {item.owner.login}</Text> */}
+                        </View>
+                        <TouchableHighlight onPress={()=>{Alert.alert('like')}} >
+                            <View style={styles.star} >
+                                {/* <Image source={require('../../res/img/star.png')} />  */}
+                                <Text>{item.starCount}</Text>
+                            </View>
+                        </TouchableHighlight>
+                    </View>   
+                </View>
+            </TouchableOpacity >
+        )
+    }
+    ListEmptyComponent=()=>{
+        return (
+            <View>
+                <Text>暂无数据</Text>
+            </View>
+        )
+    }
+    render(){
+        return (
+            <WingBlank size="sm">
+                <FlatList
+                    data={this.state.dataArray}
+                    // data={data}
+                    renderItem={this.renderItem}
+                    keyExtractor={(item, index) => `key-${index}`}                
+                    ItemSeparatorComponent={()=>{
+                        return (
+                            <View style={{height:5,backgroundColor:'#fff'}} ></View>
+                        )
+                    }}
+                    ListEmptyComponent={this.ListEmptyComponent}
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.onRefresh}
+                />
+            </WingBlank>
+        )
+    }
+}
+
+const styles = {
+    card: {
+        borderColor: '#ccc',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 5,
+        justifyContent: 'flex-end'
+    },
+    title: {
+        fontSize: 20
+    },
+    description: {
+
+    },
+    footer:{
+        flexDirection:'row',
+        justifyContent:'space-between'
+    },
+    author: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    star: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+}

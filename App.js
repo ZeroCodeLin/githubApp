@@ -4,9 +4,10 @@ import { TabBar, Icon, Tabs } from 'antd-mobile';
 import { createStackNavigator  } from 'react-navigation'
 
 
-import ListView from './src/ListView'
+import ListView from './src/view/ListView'
 import Home from './src/view/Home'
 import HomeView from './src/view/HomeView'
+import MyView from './src/view/MyView'
 
 class App extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -15,7 +16,7 @@ class App extends React.Component {
         return {
           title: params ? params.otherParam : '首页',
           headerRight: (
-            <Image source={require('./res/img/star.png')} />
+                <Image source={require('./res/img/star.png')} />
           ),
         }
     }
@@ -63,9 +64,9 @@ class App extends React.Component {
                             this.props.navigation.setParams({otherParam: 'Trending'})
                         }}
                     >
-                        <View style={{backgroundColor:'red',height:'100%'}}>
-                            <ListView />
-                        </View>
+                        
+                        <ListView  navigation={this.props.navigation} />
+                        
                     </TabBar.Item>
                     <TabBar.Item
                         title="like"
@@ -97,9 +98,7 @@ class App extends React.Component {
                             this.props.navigation.setParams({otherParam: '我'})
                         }}
                     >
-                        <View>
-                            <Text>my</Text>
-                        </View>
+                        <MyView />
                     </TabBar.Item>
                 </TabBar>
             </View>
@@ -114,24 +113,3 @@ export default createStackNavigator(
     }
 );
 
-const tabs2 = [
-    { title: 'First Tab', sub: '1' },
-    { title: 'Second Tab', sub: '2' },
-    { title: 'Third Tab', sub: '3' },
-  ];
-
-class Demo extends React.Component{
-    render(){
-        return (
-            <Tabs tabs={tabs2}
-                initialPage={1}
-                onChange={(tab, index) => { console.log('onChange', index, tab); }}
-                onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
-                >
-                <View><Text>111</Text></View>
-                <View><Text>222</Text></View>
-                <View><Text>333</Text></View>
-            </Tabs>
-        )
-    }
-}

@@ -13,9 +13,11 @@ const data = [
 ]
 
 const tabs =  [
-    { title: 'First Tab', sub: '1' },
-    { title: 'Second Tab', sub: '2' },
-    { title: 'Third Tab', sub: '3' },
+    { title: 'ios', sub: '1' },
+    { title: 'java', sub: '2' },
+    { title: 'javascript', sub: '3' },
+    { title: 'go', sub: '4' },
+    { title: 'swift', sub: '5' },
   ];
 
 export default class ListView extends React.Component {
@@ -28,16 +30,17 @@ export default class ListView extends React.Component {
     componentDidMount(){
         // Alert.alert('123');
         // this.loadGitHubTrending('https://github.com/trending');
-        console.log(this.props.navigation)
-        this.repositorySearch()
+        // console.log(this.props.navigation)
+        this.repositorySearch('ios')
     }
 
-    repositorySearch(url) {
+    repositorySearch(tab) {
+        console.log(tab)
         this.setState({
             refreshing: true
         })
-        request('https://api.github.com/search/repositories?q=ios').then(data =>{
-            console.log(1,data)
+        const url = `https://api.github.com/search/repositories?q=${tab}`
+        request(url).then(data =>{
             this.setState({
                 dataArray: data.items,
                 refreshing: false
@@ -49,7 +52,9 @@ export default class ListView extends React.Component {
     }
     renderItem=({item})=>{
         return (
-            <TouchableOpacity  onPress={()=>{this.props.navigation.push('HomeView')}}>
+            <TouchableOpacity  onPress={()=>{this.props.navigation.push('HomeView',{
+                htmlUrl: item.html_url
+            })}}>
                 <View style={styles.card} >
                     <View> 
                         <Text style={styles.title} >{item.full_name}</Text>
@@ -85,8 +90,9 @@ export default class ListView extends React.Component {
         return (
             <Tabs tabs={tabs}
                 initialPage={1}
-                onChange={(tab, index) => { console.log('onChange', index, tab); }}
-                onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
+                renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
+                onChange={(tab, index) => { this.repositorySearch(tab.title) }}
+                // onTabClick={(tab, index) => { this.repositorySearch(tab.title) }}
                 >
                 <View>
                     <WingBlank size="sm">
@@ -106,8 +112,6 @@ export default class ListView extends React.Component {
                         />
                     </WingBlank>
                 </View>
-                <View><Text>222</Text></View>
-                <View><Text>333</Text></View>
             </Tabs>
         )
     }
