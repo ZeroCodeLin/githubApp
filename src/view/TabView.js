@@ -1,5 +1,7 @@
 import React, { Component } from 'React'
-import { View, Text,Alert,CheckBox } from 'react-native';
+import { View, Text,Alert, StyleSheet } from 'react-native';
+
+import CheckBox from 'react-native-check-box'
 
 export default class TabView extends Component{
     static navigationOptions = ({ navigation }) => {
@@ -17,17 +19,42 @@ export default class TabView extends Component{
         }
     }
 
+    state={
+        checked: false
+    }
+
+    onClick=()=>{
+        this.setState({
+            checked: !this.state.checked
+        })
+    }
+    componentDidMount(){
+        console.log("storage: ", storage)
+    }
     render(){
         return (
-            <View>
-                <CheckBox value="java" />
-                <Text>123</Text>
+            <View style={styles.container} > 
+                <CheckBox 
+                    style={{flex: 1, padding: 10}}
+                    leftText="123123"
+                    isChecked={this.state.checked}
+                    onClick={()=>this.onClick()}
+                />
+                <CheckBox 
+                    style={{flex: 1, padding: 10}}
+                    leftText="2222"
+                    isChecked={this.state.checked}
+                    onClick={()=>this.onClick()}
+                />
             </View>
         )
     }
 }
 
-const styles ={
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row'
+    },
     navLeft: {
         marginLeft: 5,
         color: '#5f9df0',
@@ -38,4 +65,4 @@ const styles ={
         color: '#5f9df0',
         fontSize: 18
     }
-}
+})

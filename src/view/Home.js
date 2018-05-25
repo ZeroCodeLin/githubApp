@@ -89,6 +89,9 @@ export default class ListView extends React.Component {
     render(){
         return (
             <Tabs tabs={tabs}
+                tabBarBackgroundColor="#6495ed"
+                tabBarActiveTextColor="#ffffff"
+                tabBarInactiveTextColor="#ffffff"
                 initialPage={1}
                 renderTabBar={props => <Tabs.DefaultTabBar {...props} page={3} />}
                 onChange={(tab, index) => { this.repositorySearch(tab.title) }}

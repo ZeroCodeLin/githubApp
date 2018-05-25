@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, View, Text, Image, Alert } from 'react-native';
 import { TabBar, Icon, Tabs } from 'antd-mobile';
 import { createStackNavigator  } from 'react-navigation'
-
+import './src/utils/asyncStorage'
 
 import ListView from './src/view/ListView'
 import Home from './src/view/Home'
@@ -15,10 +15,14 @@ class App extends React.Component {
         const { params } = navigation.state;
         
         return {
-          title: params ? params.otherParam : '首页',
-          headerRight: (
-                <Image source={require('./res/img/star.png')} />
-          ),
+            // headerStyle:{
+            //     backgroundColor: '#6495ed',
+            // },
+            headerTintColor: '',
+            title: params ? params.otherParam : '首页',
+            // headerRight: (
+            //         <Image source={require('./res/img/star.png')} />
+            // ),
         }
     }
     state={
@@ -26,7 +30,7 @@ class App extends React.Component {
     }
 
     componentDidMount(){
-        console.log('2',this.props.navigation)
+        
     }
 
     render() {
