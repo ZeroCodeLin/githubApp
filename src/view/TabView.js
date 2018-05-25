@@ -31,6 +31,25 @@ export default class TabView extends Component{
     componentDidMount(){
         console.log("storage: ", storage)
     }
+    renderView=()=>{
+        <View style={styles.container} > 
+            <CheckBox 
+                style={{flex: 1, padding: 10}}
+                leftText="123123"
+                isChecked={this.state.checked}
+                onClick={()=>this.onClick()}
+            />
+            <CheckBox 
+                style={{flex: 1, padding: 10}}
+                leftText="2222"
+                isChecked={this.state.checked}
+                onClick={()=>this.onClick()}
+            />
+        </View>
+    }
+    getData=()=>{
+        storage.load
+    }
     render(){
         return (
             <View style={styles.container} > 
